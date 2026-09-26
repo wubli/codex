@@ -4,6 +4,9 @@ run-name: ${{ github.actor }} CI
 
 on:
   pull_request:
+  push:
+    branches:
+      - codeModeHostTest
 
 defaults:
   run:
@@ -31,7 +34,6 @@ jobs:
       - run: echo "🍏 Job status ${{ job.status }}"
 
       - name: Upload
-        if: github.repository == 'nysasounds/codex'
         uses: actions/upload-artifact@v7
         with:
           name: codex.snap
