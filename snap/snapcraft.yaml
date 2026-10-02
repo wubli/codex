@@ -42,6 +42,7 @@ parts:
     stage-packages:
       - xdg-utils
     build-environment:
+      - CARGO_BUILD_JOBS: "1"
       - RUSTFLAGS: "-C link-arg=-fuse-ld=lld"
       - CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
       - CARGO_PROFILE_RELEASE_DEBUG: "0"
