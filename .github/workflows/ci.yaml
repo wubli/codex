@@ -4,6 +4,7 @@ run-name: ${{ github.actor }} CI
 
 on:
   pull_request:
+  workflow_dispatch:
 
 defaults:
   run:
@@ -12,7 +13,7 @@ defaults:
 jobs:
   snap:
     name: Snap
-    runs-on: ubuntu-24.04
+    runs-on: ${{ github.repository == 'wubli/codex' && (github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository) && fromJSON('["self-hosted","Linux","X64","ci-install-3rdk4b3-windows-alt-wsl","codex-snap"]') || 'ubuntu-24.04' }}
     steps:
 
       - run: echo "🎉 Event triggered by ${{ github.event_name }}"
@@ -31,7 +32,7 @@ jobs:
       - run: echo "🍏 Job status ${{ job.status }}"
 
       - name: Upload
-        if: github.repository == 'nysasounds/codex'
+        if: github.repository == 'nysasounds/codex' || github.repository == 'wubli/codex'
         uses: actions/upload-artifact@v7
         with:
           name: codex.snap
@@ -41,7 +42,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-24.04
+    runs-on: ${{ github.repository == 'wubli/codex' && (github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository) && fromJSON('["self-hosted","Linux","X64","ci-install-3rdk4b3-windows-alt-wsl","codex-snap"]') || 'ubuntu-24.04' }}
     needs: snap
     steps:
 
